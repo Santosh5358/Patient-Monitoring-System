@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body >
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand  " style="border-radius: 20px; color: black;">
+        <div class="container" >
+            <a class="navbar-brand" href="#">Tech.Care</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Schedule</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Message</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Transactions</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dr. John Doe
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="#">View Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- main container -->
+    <div class="container" style="padding-top: 20px; ">
+        <div class="row">
+            <!-- show all Patients details -->
+            <div class="col-md-3" id="patientDetails">
+                <table class="table">
+                    <div class="row">
+                        <div class="col-auto">
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="UserInput">
+                        </div>
+                        <div class="col-auto">
+                            <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+                        </div>
+                    </div>
+                    <tbody id="patientTableBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="col-md-5" style="margin: 15px;">
+                <!--show Chart  -->
+                <div><h1>Blood Pressure Chart</h1>
+                    <canvas id="bloodPressureChart"></canvas>
+                </div>
+                <!-- show Temperature and Respiratory Rate and Heart Rate-->
+                <div class="container" style="margin: 10px;">
+                    <div class="row" id="diagnosis_history">
+                        <div class="col card" style="margin: 8px;">
+                            <table class="table" >
+                                <thead>
+                                </thead>
+                                <tbody id="RespiratoryRate">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col card" style="margin: 8px;">
+                            <table class="table" >
+                                <thead>
+                                </thead>
+                                <tbody id="Temperature">
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <img src="temperature.png" alt="" > -->
+                        <div class="col card" style="margin: 8px;">
+                            <table class="table" >
+                                <thead>   
+                                </thead>
+                                <tbody id="HeartRate">
+                                </tbody></table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Show Diagnostic List -->
+                <div class="card" style="margin-top: 20px;">
+                    <h5 class="card-title">Diagnostic List</h5>
+                    <div class="card-body" id="DiagnosticList">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                    <th>Problem/Diagnosis</th>
+                                    <th>Description</th>
+                                    <th>status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="DiagnosticBody">
+
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>   
+            </div>
+            <!-- Show Full Patient Data -->
+            <div class="col-md-3" style="padding-left: 10px;">
+                <div class="card"style="border-radius: 20px;">
+                    <div class="card-body " id="fullPatientDetails">
+                        <h3>Slecte the Patients</h3>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin: 10px;border-radius: 10px;">
+                    <h2>Lab Results</h2>
+                    <div class="card-body">
+                        <table class="table" >
+                            <thead>
+                               
+                            </thead>
+                            <tbody id="LabResults">
+
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
