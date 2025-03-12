@@ -1,64 +1,278 @@
 let username = 'coalition';
 let password = 'skills-test';
 let auth = btoa(`${username}:${password}`);
+dummydata = [
+    {
+      "name": "Emily Williams",
+      "gender": "Female",
+      "age": 18,
+      "date_of_birth": "2006-08-19",
+      "diagnosis_history": [
+        {
+          "blood_pressure": {
+            "diastolic": {
+              "levels": "Normal",
+              "value": 95
+            },
+            "systolic": {
+              "levels": "Higher than Average",
+              "value": 163
+            }
+          },
+          "heart_rate": {
+            "value": 79,
+            "levels": "Lower than Average"
+          },
+          "respiratory_rate": {
+            "value": 27,
+            "levels": "Normal"
+          },
+          "temperature": {
+            "value": 103,
+            "levels": "Higher than Average"
+          },
+          "month": "March",
+          "year": 2024
+        }
+      ],
+      "diagnostic_list": [
+        {
+          "name": "Type 2 Diabetes",
+          "description": "A chronic condition that affects the way the body processes blood sugar (glucose).",
+          "status": "Actively being treated"
+        },
+        {
+          "name": "Hypertension",
+          "description": "A condition in which the force of the blood against the artery walls is too high.",
+          "status": "Under observation"
+        }
+      ],
+      "emergency_contact": "(680) 653-9512",
+      "insurance_type": "Premier Auto Corporation",
+      "lab_results": [
+        "Complete Blood Count (CBC)",
+        "Echocardiogram",
+        "Liver Function Tests",
+        "Mammography",
+        "Urinalysis",
+        "Ultrasound",
+        "Prostate-Specific Antigen (PSA)",
+        "Hemoglobin A1C",
+        "Lipid Panel",
+        "Radiology Report"
+      ],
+      "profile_picture": "https://fedskillstest.ct.digital/1.png"
+    },
+    {
+      "name": "Ryan Johnson",
+      "gender": "Male",
+      "age": 45,
+      "date_of_birth": "1979-11-02",
+      "diagnosis_history": [
+        {
+          "blood_pressure": {
+            "diastolic": {
+              "levels": "Normal",
+              "value": 80
+            },
+            "systolic": {
+              "levels": "Normal",
+              "value": 120
+            }
+          },
+          "heart_rate": {
+            "value": 72,
+            "levels": "Normal"
+          },
+          "respiratory_rate": {
+            "value": 18,
+            "levels": "Normal"
+          },
+          "temperature": {
+            "value": 98.6,
+            "levels": "Normal"
+          },
+          "month": "February",
+          "year": 2024
+        }
+      ],
+      "diagnostic_list": [
+        {
+          "name": "Type 2 Diabetes",
+          "description": "A chronic condition that affects the way the body processes blood sugar (glucose).",
+          "status": "Untreated"
+        },
+        {
+          "name": "Hypertension",
+          "description": "A condition in which the force of the blood against the artery walls is too high.",
+          "status": "Under observation"
+        }
+      ],
+      "emergency_contact": "(711) 984-6696",
+      "insurance_type": "Basic Health Coverage",
+      "lab_results": [
+        "Complete Blood Count (CBC)",
+        "Echocardiogram",
+        "Liver Function Tests",
+        "Mammography",
+        "Urinalysis",
+        "Ultrasound",
+        "Prostate-Specific Antigen (PSA)",
+        "Hemoglobin A1C",
+        "Lipid Panel",
+        "Radiology Report"
+      ],
+      "profile_picture": "https://fedskillstest.ct.digital/2.png"
+    },
+    {
+      "name": "Brandon Mitchell",
+      "gender": "Male",
+      "age": 36,
+      "date_of_birth": "1988-11-17",
+      "diagnosis_history": [
+        {
+          "blood_pressure": {
+            "diastolic": {
+              "levels": "Normal",
+              "value": 90
+            },
+            "systolic": {
+              "levels": "Higher than Average",
+              "value": 150
+            }
+          },
+          "heart_rate": {
+            "value": 76,
+            "levels": "Normal"
+          },
+          "respiratory_rate": {
+            "value": 20,
+            "levels": "Normal"
+          },
+          "temperature": {
+            "value": 98.6,
+            "levels": "Normal"
+          },
+          "month": "January",
+          "year": 2024
+        }
+      ],
+      "diagnostic_list": [
+        {
+          "name": "Type 2 Diabetes",
+          "description": "A chronic condition that affects the way the body processes blood sugar (glucose).",
+          "status": "Under observation"
+        },
+        {
+          "name": "Hypertension",
+          "description": "A condition in which the force of the blood against the artery walls is too high.",
+          "status": "Actively being treated"
+        }
+      ],
+      "emergency_contact": "(680) 653-9512",
+      "insurance_type": "Premium Health Plan",
+      "lab_results": [
+        "Complete Blood Count (CBC)",
+        "Echocardiogram",
+        "Liver Function Tests",
+        "Mammography",
+        "Urinalysis",
+        "Ultrasound",
+        "Prostate-Specific Antigen (PSA)",
+        "Hemoglobin A1C",
+        "Lipid Panel",
+        "Radiology Report"
+      ],
+      "profile_picture": "https://fedskillstest.ct.digital/3.png"
+    }
+  ]
+  
 
-// Fatch data using API 
 fetch('https://fedskillstest.coalitiontechnologies.workers.dev', {
-	headers: {
-		'Authorization': `Basic ${auth}`
-	}
+    headers: {
+        'Authorization': `Basic ${auth}`
+    }
 }).then(response => response.json())
 .then(data => {
-    console.log(data);
+    console.log('API Response:', data);  // Log the full API response
     displayPatientData(data);
-    const years = data.map(entry => entry.year);
-    const systolicValues = data.map(entry => entry.systolic);
-    const diastolicValues = data.map(entry => entry.diastolic);
 
-    
+})
+.catch(error => {
+    console.error('Error fetching data:', error);
+    console.log('Using dummy data due to error');
+    displayPatientData(dummydata);  // Use dummy data as fallback
+});
+
+let bloodPressureChart = null;
+
+function updateChart(patientData) {
+    // Extract years from the data
+    const years = patientData.map(entry => entry.year);
+
+    // Extract systolic and diastolic blood pressure values
+    const systolic = patientData.map(entry => entry.blood_pressure.systolic.value || 0);  // Extract systolic value
+    const diastolic = patientData.map(entry => entry.blood_pressure.diastolic.value || 0);  // Extract diastolic value
+
+    // Check for invalid data
+    if (systolic.includes(NaN) || diastolic.includes(NaN)) {
+        console.error('Invalid data in systolic or diastolic values.');
+        return;
+    }
+
+    // Destroy the previous chart if it exists
+    if (bloodPressureChart) {
+        bloodPressureChart.destroy();
+    }
+
+    // Get the chart context
     const ctx = document.getElementById('bloodPressureChart').getContext('2d');
-    new Chart(ctx, {
+
+    // Create a new chart
+    bloodPressureChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: years,
+            labels: years,  // X-axis: years
             datasets: [
                 {
-                    label: 'Systolic',
-                    data: systolicValues,
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    label: 'Systolic Blood Pressure',
+                    data: systolic,  // Y-axis: systolic data
+                    borderColor: 'rgba(255, 99, 132, 1)',  // Red line for systolic
                     fill: false,
+                    tension: 0.1
                 },
                 {
-                    label: 'Diastolic',
-                    data: diastolicValues,
-                    borderColor: 'rgba(255, 99, 132, 1)',
+                    label: 'Diastolic Blood Pressure',
+                    data: diastolic,  // Y-axis: diastolic data
+                    borderColor: 'rgba(54, 162, 235, 1)',  // Blue line for diastolic
                     fill: false,
-                },
-            ],
+                    tension: 0.1
+                }
+            ]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             scales: {
                 x: {
-                    display: true,
                     title: {
                         display: true,
-                        text: 'year',
-                    },
+                        text: 'Year'
+                    }
                 },
                 y: {
-                    display: true,
                     title: {
                         display: true,
-                        text: 'Blood Pressure',
-                    },
-                },
-            },
-        },
+                        text: 'Blood Pressure (mmHg)'
+                    }
+                }
+            }
+        }
     });
-})
-.catch(error => console.error('Error fetching data:', error));
+}
+
+
+
+
 
 function displayPatientData(data) {
     const patientDetailsDiv = document.getElementById('patientDetails');
@@ -82,6 +296,7 @@ function displayPatientData(data) {
         row.addEventListener('click', () => showLabResults(patient));
         row.addEventListener('click', () => showdiagnosisHistory(patient));
         row.addEventListener('click', () => showDiagnosticList(patient));
+        row.addEventListener('click', () => updateChart(patient.diagnosis_history));
         
         
         tableBody.appendChild(row);
@@ -261,22 +476,55 @@ function clearLabResult() {
 }
 
 // Searching 
-document.getElementById('UserInput').addEventListener('input', function() {
-    const searchText = this.value.trim().toUpperCase();
-    console.log(searchText);
-    const rows = Array.from(document.querySelectorAll('#patientDetails #patientTableBody tr' ));
-    rows.forEach(row => {
-        const name = row.textContent.trim().toUpperCase();
-        // console.log(name);  
-        if (name.startsWith(searchText)) 
-        {
-            console.log(name);
-            rows[0].style.display = '';
-        }else 
-        {
-            rows[0].style.display = 'none';
-            // alert("No Data Found....!");
+// document.getElementById('UserInput').addEventListener('input', function() {
+//     const searchText = this.value.trim().toUpperCase();
+//     console.log(searchText);
+//     const rows = Array.from(document.querySelectorAll('#patientDetails #patientTableBody tr' ));
+//     rows.forEach(row => {
+//         const name = row.textContent.trim().toUpperCase();
+//         // console.log(name);  
+//         if (name.startsWith(searchText)) 
+//         {
+//             console.log(name);
+//             rows[0].style.display = '';
+//         }else 
+//         {
+//             rows[0].style.display = 'none';
+//             // alert("No Data Found....!");
             
-        }
-    });   
-  });
+//         }
+//     });   
+//   });
+function searchData() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const searchResults = document.getElementById('searchResults');
+    const noResultsMessage = document.getElementById('noResultsMessage');
+
+    // Clear previous search results
+    searchResults.innerHTML = '';
+
+    // If search input is empty, return early and hide the 'no results' message
+    if (!searchInput.trim()) {
+        noResultsMessage.style.display = 'none';
+        return;
+    }
+
+    // Filter patient data based on month or year match
+    const filteredData = patientData.filter(entry => 
+        entry.name.toLowerCase().includes(searchInput)
+    );
+
+    // If no results are found, show the 'no results' message
+    if (filteredData.length === 0) {
+        noResultsMessage.style.display = 'block';
+    } else {
+        noResultsMessage.style.display = 'none';
+        
+        // Populate the search results list
+        filteredData.forEach(entry => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Month: ${entry.month}, Year: ${entry.year}`;
+            searchResults.appendChild(listItem);
+        });
+    }
+}

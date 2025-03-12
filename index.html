@@ -44,17 +44,19 @@
                 <table class="table">
                     <div class="row">
                         <div class="col-auto">
-                            <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="UserInput">
+                            <input class="form-control" type="search" id="searchInput" placeholder="Search for a month or year..." oninput="searchData()">
                         </div>
                         <div class="col-auto">
                             <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
                         </div>
+                        <ul id="searchResults"></ul>
                     </div>
                     <tbody id="patientTableBody">
                         
                     </tbody>
                 </table>
             </div>
+            
             
             <div class="col-md-5" style="margin: 15px;">
                 <!--show Chart  -->
@@ -90,6 +92,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- Show Diagnostic List -->
                 <div class="card" style="margin-top: 20px;">
                     <h5 class="card-title">Diagnostic List</h5>
