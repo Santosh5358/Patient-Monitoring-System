@@ -475,56 +475,23 @@ function clearLabResult() {
     }
 }
 
-// Searching 
-// document.getElementById('UserInput').addEventListener('input', function() {
-//     const searchText = this.value.trim().toUpperCase();
-//     console.log(searchText);
-//     const rows = Array.from(document.querySelectorAll('#patientDetails #patientTableBody tr' ));
-//     rows.forEach(row => {
-//         const name = row.textContent.trim().toUpperCase();
-//         // console.log(name);  
-//         if (name.startsWith(searchText)) 
-//         {
-//             console.log(name);
-//             rows[0].style.display = '';
-//         }else 
-//         {
-//             rows[0].style.display = 'none';
-//             // alert("No Data Found....!");
+Searching 
+document.getElementById('UserInput').addEventListener('input', function() {
+    const searchText = this.value.trim().toUpperCase();
+    console.log(searchText);
+    const rows = Array.from(document.querySelectorAll('#patientDetails #patientTableBody tr' ));
+    rows.forEach(row => {
+        const name = row.textContent.trim().toUpperCase();
+        // console.log(name);  
+        if (name.startsWith(searchText)) 
+        {
+            console.log(name);
+            rows[0].style.display = '';
+        }else 
+        {
+            rows[0].style.display = 'none';
+            // alert("No Data Found....!");
             
-//         }
-//     });   
-//   });
-function searchData() {
-    const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    const searchResults = document.getElementById('searchResults');
-    const noResultsMessage = document.getElementById('noResultsMessage');
-
-    // Clear previous search results
-    searchResults.innerHTML = '';
-
-    // If search input is empty, return early and hide the 'no results' message
-    if (!searchInput.trim()) {
-        noResultsMessage.style.display = 'none';
-        return;
-    }
-
-    // Filter patient data based on month or year match
-    const filteredData = patientData.filter(entry => 
-        entry.name.toLowerCase().includes(searchInput)
-    );
-
-    // If no results are found, show the 'no results' message
-    if (filteredData.length === 0) {
-        noResultsMessage.style.display = 'block';
-    } else {
-        noResultsMessage.style.display = 'none';
-        
-        // Populate the search results list
-        filteredData.forEach(entry => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `Month: ${entry.month}, Year: ${entry.year}`;
-            searchResults.appendChild(listItem);
-        });
-    }
-}
+        }
+    });   
+  });
