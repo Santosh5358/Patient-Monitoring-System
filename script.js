@@ -475,26 +475,25 @@ function clearLabResult() {
     }
 }
 
-Searching 
-document.getElementById('UserInput').addEventListener('input', function() {
-    const searchText = this.value.trim().toUpperCase();
-    console.log(searchText);
-    const rows = Array.from(document.querySelectorAll('#patientDetails #patientTableBody tr' ));
-    rows.forEach(row => {
-        const name = row.textContent.trim().toUpperCase();
-        // console.log(name);  
-        if (name.startsWith(searchText)) 
-        {
-            console.log(name);
-            rows[0].style.display = '';
-        }else 
-        {
-            rows[0].style.display = 'none';
-            // alert("No Data Found....!");
-            
-        }
-    });   
-  });
+document.getElementById('searchInput').addEventListener('input', function () {
+  const query = this.value.toLowerCase().trim();
+
+  if (query.length === 0) {
+    document.getElementById('fullPatientDetails').innerHTML = ''; // Clear when input is empty
+    return;
+  }
+
+  const matchedPatient = patients.find(patient =>
+    patient.name.toLowerCase().includes(query)
+  );
+
+  if (matchedPatient) {
+    showFullPatientDetails(matchedPatient);
+  } else {
+    document.getElementById('fullPatientDetails').innerHTML = '<p>No patient found.</p>';
+  }
+});
+
 
 async function setElementStyles(el, styles) {
   for (const [key, value] of Object.entries(styles)) {
