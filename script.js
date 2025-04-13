@@ -495,3 +495,118 @@ document.getElementById('UserInput').addEventListener('input', function() {
         }
     });   
   });
+
+async function setElementStyles(el, styles) {
+  for (const [key, value] of Object.entries(styles)) {
+    el.style[key] = value;
+  }
+}
+function setupPagination(tableBodyId, rowsPerPage = 5) {
+  const tableBody = document.getElementById(tableBodyId);
+  if (!tableBody) {
+    console.error(`Table body with ID '${tableBodyId}' not found.`);
+    return;
+  }
+
+  const rows = Array.from(tableBody.querySelectorAll('tr'));
+  const totalRows = rows.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
+  let currentPage = 1;
+
+  function showPage(pageNumber) {
+    currentPage = pageNumber;
+    const startIndex = (pageNumber - 1) * rowsPerPage;
+    const endIndex = Math.min(startIndex + rowsPerPage, totalRows);
+
+    rows.forEach((row, index) => {
+      if (index >= startIndex && index < endIndex) {
+        setElementStyles(row, { display: 'table-row' });
+      } else {
+        setElementStyles(row, { display: 'none' });
+      }
+    });
+      updatePaginationControls();
+  }
+
+  function createPaginationControls() {
+    const paginationContainer = document.createElement('div');
+    paginationContainer.classList.add('pagination');
+
+    // Previous button
+    const prevButton = document.createElement('a');
+    prevButton.href = '#';
+    prevButton.textContent = 'Previous';
+    prevButton.id = 'prevButton';
+    prevButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (currentPage > 1) {
+        showPage(currentPage - 1);
+      }
+    });
+    paginationContainer.appendChild(prevButton);
+
+    // Numbered links
+    for (let i = 1; i <= totalPages; i++) {
+      const link = document.createElement('a');
+      link.href = '#';
+      link.textContent = i;
+      link.id = `pageLink-${i}`;
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        showPage(i);
+      });
+      paginationContainer.appendChild(link);
+    }
+
+    // Next button
+    const nextButton = document.createElement('a');
+    nextButton.href = '#';
+    nextButton.textContent = 'Next';
+    nextButton.id = 'nextButton';
+    nextButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (currentPage < totalPages) {
+        showPage(currentPage + 1);
+      }
+    });
+    paginationContainer.appendChild(nextButton);
+    return paginationContainer;
+  }
+
+    function updatePaginationControls() {
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+
+        if (currentPage === 1) {
+          prevButton.style.display = 'none';
+        } else {
+          prevButton.style.display = 'inline';
+        }
+
+        if (currentPage === totalPages) {
+          nextButton.style.display = 'none';
+        } else {
+          nextButton.style.display = 'inline';
+        }
+        for (let i = 1; i <= totalPages; i++) {
+            const link = document.getElementById(`pageLink-${i}`);
+            if(currentPage === i){
+                link.style.fontWeight = 'bold';
+                link.style.color = 'blue';
+            } else {
+                link.style.fontWeight = 'normal';
+                link.style.color = 'black';
+            }
+        }
+  }
+
+  // Initial setup
+  showPage(1);
+
+  // Create and append pagination controls after the table
+  const paginationControls = createPaginationControls();
+  tableBody.closest("table").after(paginationControls);
+}
+
+// Call the function
+setupPagination('patientTableBody', 5);
